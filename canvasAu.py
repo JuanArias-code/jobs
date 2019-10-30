@@ -4,7 +4,7 @@ import win32com.client
 import pyttsx3
 import time
 from tkinter import *
-
+from tkinter import messagebox
 
 class Grafo(object):
 
@@ -77,7 +77,7 @@ class PintarGrafo():
 			self.__lienzo = [paint.create_arc( 105, 375,175.5 ,470,star=0,extent=180,style='arc',width=3.0),
 			paint.create_line(165,405,175,420,widt=3),
 			paint.create_line(185,405,175,420,widt=3),
-			paint.create_oval(95,495,185,405,width=1.5),
+			paint.create_oval(95,495,185,405,width=1.5,fill='#eff5fc'),
 			paint.create_text(140,450,text='p',font=('Comic Sans MS',20)),
 			paint.create_line(185,450,284,450,width=3.0,arrow=LAST)]
 			root.update()
@@ -88,13 +88,13 @@ class PintarGrafo():
 			self.__lienzo = [paint.create_arc( 295, 375,365.5 ,470,star=0,extent=180,style='arc',width=3.0,outline="black"),
 			paint.create_line(355,405,365,420,widt=3,fill="black"),
 			paint.create_line(375,405,365,420,widt=3),
-			paint.create_oval(285,495,375,405,width=1.5),
+			paint.create_oval(285,495,375,405,width=1.5,fill='#eff5fc'),
 			paint.create_text(330,450,text='q',font=('Comic Sans MS',20)),
 			paint.create_line(375,450,474,450,width=3.0,arrow=LAST)]
 			root.update()
 
 		elif self.__vertice=="r":
-			self.__lienzo = [paint.create_oval(475,495,565,405,width=1.5),
+			self.__lienzo = [paint.create_oval(475,495,565,405,width=1.5,fill='#eff5fc'),
 			paint.create_oval(485,485,555,415,width=1.5),
 			paint.create_text(520,450,text='r',font=('Comic Sans MS',20))]
 			root.update()
@@ -156,8 +156,8 @@ class PintarGrafo():
 		if self.__indicador:
 			paint.itemconfigure(self.__lienzo[0],fill='green')
 			texto.set("Validado")
-			mensaje.config(textvariable=texto,fg='green')
-			voz.say("La palabra es palindroma")
+			mensaje.config(textvariable=texto,fg='green',bg="white")
+			voz.say("La palabra es palíndroma")
 			root.update()
 			voz.runAndWait()
 
@@ -165,7 +165,7 @@ class PintarGrafo():
 			paint.itemconfigure(self.__lienzo[3],fill='red')
 			texto.set("Incorrecto")
 			mensaje.config(textvariable=texto,fg='red')
-			voz.say("ERROR, la palabra no es palindroma")
+			voz.say("ERROR, la palabra no es palíndroma")
 			root.update()
 			voz.runAndWait()
 
@@ -179,7 +179,7 @@ class ListaCondiciones():
 	def __init__(self,camino,x,y,segundos):
 		self.__condiciones = []
 		self.__camino = camino
-		self.__lista = Listbox(root,width=15, height=5,font=("Comic Sans MS",10))
+		self.__lista = Listbox(root,width=15, height=5,font=("Comic Sans MS",10),bg="#eff5fc")
 		self.__x = x
 		self.__y = y
 		self.__segundos = segundos
@@ -206,7 +206,7 @@ class ListaCondiciones():
 				self.__lista.see(x)
 				self.__lista.itemconfigure(x,bg='#00aa00',fg='#fff')
 				root.update()
-				paint.after(self.__segundos,self.__lista.itemconfigure(x,bg='white',fg='black'))
+				paint.after(self.__segundos,self.__lista.itemconfigure(x,bg='green',fg='white'))
 				root.update()
 
 
@@ -233,7 +233,7 @@ def proceso(palabra,listaCon,listaEs,pilaI):
 		voz.setProperty('rate',230)
 		
 		texto.set("Solo palabras impares")
-		mensaje.config(textvariable=texto,fg='blue')
+		mensaje.config(textvariable=texto,fg='black')
 		voz.say("Ingrese una palabra impar con mas de dos letras")
 		voz.runAndWait()
 		root.update()
@@ -382,15 +382,16 @@ def iniciar():
 
 
 	casilla=Text(root,width=25,height=1)
-	casilla.place(x=400,y=510)
+	casilla.place(x=570,y=420)
 
 
-	pilaI.create_rectangle(4,0,100,490,width=2)
-	pilaI.place(x=800,y=100)
-	pilaI.config(bg='#51c4fa')
+	pilaI.create_rectangle(4,4,100,490,width=2)
+	pilaI.place(x=800,y=85)
+	pilaI.config(bg='#eff5fc')
 
 	texto.set("Ingrese una palabra")
 	mensaje.config(textvariable=texto,fg='black')
+	mensaje.place(x=610,y=380)
 
 	
 
@@ -437,18 +438,19 @@ if __name__ == '__main__':
 			root.title('Automata palindromo impar')
 			root.geometry('1000x700')
 			root.resizable(0,0)
-			root.iconbitmap("icono.jpeg")
-			root.config(bg='white') #color inferior
+			root.iconbitmap("artificial-intelligence.ico")
+			root.config(bg='#0a0a0a') #color inferior
+
 
 			paint = Canvas(root, width=1000, height=700,)
 			paint.place(x=4,y=-125)
-			paint.config(bg='#3c6bc0') #color superior
+			paint.config(bg='#00aae4') #color superior
 
 			reiniciar=Button(root,text="Reiniciar todo",state='disabled')
-			reiniciar.place(x=398,y=535)
+			reiniciar.place(x=600,y=450)
 
 			verificar=Button(root,text="Verificar")
-			verificar.place(x=550,y=535)
+			verificar.place(x=700,y=450)
 
 			mensaje=Label(root,text="",fg="black",font=("Comic Sans MS",10))
 			mensaje.place(x=435,y=565)
@@ -462,7 +464,12 @@ if __name__ == '__main__':
 			lento=Button(root,text="Lento")
 			lento.place(x=40,y=120)
 
-			pilaI = Canvas(root,width=100,height=1000)
+			def clicked():
+				messagebox.showinfo('¿Que es un automata?', 'Un autómata es un modelo matemático para una máquina de estado finito (FSM sus siglas en inglés). Una FSM es una máquina que, dada una entrada de símbolos, "salta" a través de una serie de estados de acuerdo a una función de transición (que puede ser expresada como una tabla). En la variedad común "Mealy" de FSMs, esta función de transición dice al autómata a qué estado cambiar dados unos determinados estado y símbolo.')
+			btn = Button(root, text='Informacion', command=clicked)
+			btn.grid(column=0, row=0,padx = 810, pady = 15)
+
+			pilaI = Canvas(root,width=100,height=490)
 
 			texto = StringVar()
 			seg = IntVar()
